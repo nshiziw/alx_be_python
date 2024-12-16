@@ -1,14 +1,15 @@
 import random
 
 # create the game
+print("Welcome to guess number game")
 def guess_number():
     secret_number = random.randint(1, 10)
     guess_count = 0
 
-    print("Welcome to guess number game")
+    print("I'm thinking of a number between 1 and 10. can you guess it?")
 
     while True:
-        guess = int(input("Guess a number between 1 and 10: "))
+        guess = int(input())
         guess_count += 1
         match guess:
             case _ if guess == secret_number:
