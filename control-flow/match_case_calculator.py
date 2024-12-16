@@ -1,5 +1,5 @@
-num1 = input("Enter first number:")
-num2 = input("Enter second number:")
+num1 = input("Enter the first number: ")
+num2 = input("Enter the second number: ")
 operation = input("Choose operation (+, -, *, /):")
 
 match operation:
