@@ -11,7 +11,11 @@ class Catalog:
     def display_total_price(self):
         total_price = self.quantity * self.price
         return total_price
+
+    def display_information(self):
+        information = self.display_product_information()
+        total = self.display_total_price()
+        return f"{information}, Total: {total}"
     
 product = Catalog("BMW", 78000, 3)
-print(product.display_product_information())
-print(product.display_total_price())
+print(product.display_information())
