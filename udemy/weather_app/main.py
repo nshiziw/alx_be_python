@@ -7,50 +7,58 @@ app = FastAPI()
 @app.get("/", response_class=HTMLResponse)
 async def read_items():
     html_content = """
-    <html>
-        <head>
-            <title>Some HTML in here</title>
-        </head>
-        <body>
-            <div class="row d-flex justify-content-center py-5">
-                <div class="col-md-8 col-lg-6 col-xl-5">
-
-                    <div class="card text-body" style=" border-radius: 35px;">
-                    <div class="card-body p-4">
-
-                        <div class="d-flex">
-                        <h6 class="flex-grow-1">Warsaw</h6>
-                        <h6>15:07</h6>
-                        </div>
-
-                        <div class="d-flex flex-column text-center mt-5 mb-4">
-                        <h6 class="display-4 mb-0 font-weight-bold"> 13°C </h6>
-                        <span class="small" style="color: #868B94">Stormy</span>
-                        </div>
-
-                        <div class="d-flex align-items-center">
-                        <div class="flex-grow-1" style="font-size: 1rem;">
-                            <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 40 km/h
-                            </span>
-                            </div>
-                            <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 84%
-                            </span></div>
-                            <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1"> 0.2h
-                            </span></div>
-                        </div>
-                        <div>
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
-                            width="100px">
-                        </div>
-                        </div>
-
-                    </div>
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>Weather App</title>
+                <!-- Tailwind CSS CDN -->
+                <script src="https://cdn.tailwindcss.com"></script>
+            </head>
+            <body class="bg-gray-100">
+                <div class="flex justify-center items-center py-10">
+                <div class="bg-white p-6 rounded-3xl shadow-xl max-w-sm w-full">
+                    <div class="flex justify-between items-center">
+                    <h6 class="text-xl font-semibold">Warsaw</h6>
+                    <h6 class="text-sm text-gray-600">15:07</h6>
                     </div>
 
+                    <div class="flex flex-col items-center my-8">
+                    <h6 class="text-6xl font-bold">13°C</h6>
+                    <span class="text-sm text-gray-500">Stormy</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col text-sm text-gray-600">
+                        <div class="flex items-center mb-2">
+                        <i class="fas fa-wind text-gray-600"></i>
+                        <span class="ml-2">40 km/h</span>
+                        </div>
+                        <div class="flex items-center mb-2">
+                        <i class="fas fa-tint text-gray-600"></i>
+                        <span class="ml-2">84%</span>
+                        </div>
+                        <div class="flex items-center">
+                        <i class="fas fa-sun text-gray-600"></i>
+                        <span class="ml-2">0.2h</span>
+                        </div>
+                    </div>
+                    <div class="w-24">
+                        <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        alt="Weather Icon"
+                        class="w-full"
+                        />
+                    </div>
+                    </div>
                 </div>
-            </div>
-        </body>
-    </html>
+                </div>
+
+                <!-- Font Awesome CDN -->
+                <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+            </body>
+        </html>
+
     """
 
     return HTMLResponse(content=html_content, status_code=200)
