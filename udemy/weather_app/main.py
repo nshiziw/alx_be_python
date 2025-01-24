@@ -6,6 +6,13 @@ app = FastAPI()
 
 @app.get("/", response_class=HTMLResponse)
 async def read_items():
+    temperature = 23
+    icon = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+    wind_speed = 50
+    pre_pos = 67
+    city = "kigali"
+    time = "15:07"
+    forecast = "Sunny"
     html_content = """
         <html lang="en">
             <head>
@@ -19,24 +26,24 @@ async def read_items():
                 <div class="flex justify-center items-center py-10">
                 <div class="bg-white p-6 rounded-3xl shadow-xl max-w-sm w-full">
                     <div class="flex justify-between items-center">
-                    <h6 class="text-xl font-semibold">Warsaw</h6>
-                    <h6 class="text-sm text-gray-600">15:07</h6>
+                    <h6 class="text-xl font-semibold">{city}</h6>
+                    <h6 class="text-sm text-gray-600">{time}</h6>
                     </div>
 
                     <div class="flex flex-col items-center my-8">
-                    <h6 class="text-6xl font-bold">13°C</h6>
-                    <span class="text-sm text-gray-500">Stormy</span>
+                    <h6 class="text-6xl font-bold">{temperature}°C</h6>
+                    <span class="text-sm text-gray-500">{forecast}</span>
                     </div>
 
                     <div class="flex items-center justify-between">
                     <div class="flex flex-col text-sm text-gray-600">
                         <div class="flex items-center mb-2">
                         <i class="fas fa-wind text-gray-600"></i>
-                        <span class="ml-2">40 km/h</span>
+                        <span class="ml-2">{wind_speed} km/h</span>
                         </div>
                         <div class="flex items-center mb-2">
                         <i class="fas fa-tint text-gray-600"></i>
-                        <span class="ml-2">84%</span>
+                        <span class="ml-2">{pre_pos}%</span>
                         </div>
                         <div class="flex items-center">
                         <i class="fas fa-sun text-gray-600"></i>
@@ -45,7 +52,7 @@ async def read_items():
                     </div>
                     <div class="w-24">
                         <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
+                        src="{icon}"
                         alt="Weather Icon"
                         class="w-full"
                         />
@@ -59,7 +66,7 @@ async def read_items():
             </body>
         </html>
 
-    """
+    """.format(temperature = temperature, icon = icon,forecast = forecast, wind_speed = wind_speed, city = city, pre_pos = pre_pos)
 
     return HTMLResponse(content=html_content, status_code=200)
 
