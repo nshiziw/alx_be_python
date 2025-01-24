@@ -5,8 +5,8 @@ import requests
 
 app = FastAPI()
 
-def get_temp():
-    r = requests.get('https://api.weather.gov/gridpoints/TOP/31,80/forecast').json()
+def get_temp(forecast_url):
+    r = requests.get(forecast_url).json()
     day_temp = r['properties']['periods'][0]
     return {
         "temperature": day_temp["temperature"],
@@ -22,12 +22,17 @@ def getLoc(ip):
         "loc": r["loc"]
     }
 
+def getGrid(loc):
+    r = requests.get('https://api.weather.gov/points/{loc}'.format(loc=loc)).json()
+    return r['properties']['forecast']
+
 @app.get("/", response_class=HTMLResponse)
 async def read_items(request: Request):
     client_host = request.client.host
     client_host = '63.116.61.253' #TODO, will remove it
     location = getLoc(client_host)
-    temp = get_temp()
+    forecast_url = getGrid(location["loc"])
+    temp = get_temp(forecast_url)
     temperature = temp["temperature"]
     icon = temp["icon"]
     wind_speed = temp["wind_speed"]
