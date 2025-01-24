@@ -1,18 +1,40 @@
 from typing import Union 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
+import requests
 
 app = FastAPI()
 
+def get_temp():
+    r = requests.get('https://api.weather.gov/gridpoints/TOP/31,80/forecast').json()
+    day_temp = r['properties']['periods'][0]
+    return {
+        "temperature": day_temp["temperature"],
+        "wind_speed": day_temp["windSpeed"],
+        "icon": day_temp["icon"],
+        "forecast": day_temp["shortForecast"],
+    }
+
+def getLoc(ip):
+    r = requests.get('https://ipinfo.io/{ip}/json'.format(ip=ip)).json()
+    return {
+        "city": r["city"],
+        "loc": r["loc"]
+    }
+
 @app.get("/", response_class=HTMLResponse)
-async def read_items():
-    temperature = 23
-    icon = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/ilu1.webp"
-    wind_speed = 50
+async def read_items(request: Request):
+    client_host = request.client.host
+    client_host = '63.116.61.253' #TODO, will remove it
+    location = getLoc(client_host)
+    temp = get_temp()
+    temperature = temp["temperature"]
+    icon = temp["icon"]
+    wind_speed = temp["wind_speed"]
     pre_pos = 67
-    city = "kigali"
+    city = location["city"]
     time = "15:07"
-    forecast = "Sunny"
+    forecast = temp["forecast"]
     html_content = """
         <html lang="en">
             <head>
@@ -31,7 +53,7 @@ async def read_items():
                     </div>
 
                     <div class="flex flex-col items-center my-8">
-                    <h6 class="text-6xl font-bold">{temperature}°C</h6>
+                    <h6 class="text-6xl font-bold">{temperature}°F</h6>
                     <span class="text-sm text-gray-500">{forecast}</span>
                     </div>
 
@@ -39,7 +61,7 @@ async def read_items():
                     <div class="flex flex-col text-sm text-gray-600">
                         <div class="flex items-center mb-2">
                         <i class="fas fa-wind text-gray-600"></i>
-                        <span class="ml-2">{wind_speed} km/h</span>
+                        <span class="ml-2">{wind_speed}</span>
                         </div>
                         <div class="flex items-center mb-2">
                         <i class="fas fa-tint text-gray-600"></i>
@@ -54,7 +76,7 @@ async def read_items():
                         <img
                         src="{icon}"
                         alt="Weather Icon"
-                        class="w-full"
+                        class="w-full rounded-full"
                         />
                     </div>
                     </div>
@@ -66,7 +88,7 @@ async def read_items():
             </body>
         </html>
 
-    """.format(temperature = temperature, icon = icon,forecast = forecast, wind_speed = wind_speed, city = city, pre_pos = pre_pos)
+    """.format(temperature = temperature,time = time, icon = icon,forecast = forecast, wind_speed = wind_speed, city = city, pre_pos = pre_pos)
 
     return HTMLResponse(content=html_content, status_code=200)
 
