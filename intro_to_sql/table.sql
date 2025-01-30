@@ -152,3 +152,29 @@ CREATE ROLE StudentAdmin;
 GRANT SELECT, INSERT, UPDATE, DELETE ON Students TO StudentAdmin;
 CREATE USER 'admin_user' IDENTIFIED BY 'password123';
 GRANT StudentAdmin TO 'admin_user';
+
+
+
+
+SELECT Name, Email FROM Customers;
+
+
+SELECT ProductName, Price 
+FROM Products 
+WHERE Price > 50;
+
+
+SELECT * 
+FROM Orders 
+WHERE OrderDate > '2023-01-01' 
+AND Status = 'Shipped';
+
+
+SELECT ProductName, UnitPrice 
+FROM Products 
+WHERE UnitPrice > (SELECT AVG(UnitPrice) FROM Products);
+
+
+SELECT Department, COUNT(*) AS TotalEmployees 
+FROM Employees 
+GROUP BY Department;
